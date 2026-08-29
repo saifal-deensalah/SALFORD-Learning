@@ -47,6 +47,7 @@ import { getFormFields } from './app/form-fields';
 import { LearningPanels } from './panels/LearningPanels';
 import { DemoCheckout, paymentHidden } from './components/DemoCheckout';
 import { api, hasSession, signIn, useSessionUser } from './services/api';
+import { signInWithGoogle } from './services/google-auth';
 import { AdminApp } from './admin/AdminApp';
 import { StudentApp } from './learning/StudentApp';
 
@@ -312,6 +313,27 @@ function LearningApp({
       setAuthBusy(false);
     }
   };
+  const authenticateWithGoogle = async () => {
+    if (authPending.current) {
+      return;
+    }
+    authPending.current = true;
+    setAuthBusy(true);
+    try {
+      const user = await signInWithGoogle(remember);
+      setProfile(p => ({ ...p, name: user.name, email: user.email }));
+      setState(s => ({ ...s, plan: null }));
+      setForm({});
+      go(SCREEN.home, true);
+    } catch (error) {
+      if ((error as { code?: string }).code !== 'GOOGLE_SIGN_IN_CANCELLED') {
+        notice((error as Error).message);
+      }
+    } finally {
+      authPending.current = false;
+      setAuthBusy(false);
+    }
+  };
   const actions: Record<string, Action> = {},
     hidden = new Set<string>(),
     selected = new Set<string>();
@@ -368,8 +390,7 @@ function LearningApp({
   });
   bind(825, 'Remember email for this session', () => setRemember(v => !v));
   bind(830, 'Forgot password', () => setPanel('forgot'));
-  // No native OAuth integration is configured: preserve artwork, disable actions.
-  bind([837, 913], 'Google sign-in unavailable: not configured', () => {}, true);
+  bind([837, 913], 'Sign in with Google', authenticateWithGoogle, authBusy);
   bind([844, 920], 'Apple sign-in unavailable: not configured', () => {}, true);
   if (current === SCREEN.signup) {
     replacements['1:994'] = (

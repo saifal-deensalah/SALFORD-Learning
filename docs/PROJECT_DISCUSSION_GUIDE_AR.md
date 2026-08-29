@@ -595,7 +595,7 @@ Access token يستخدم للطلبات وعمره أقصر. Refresh token يس
 
 ### 20. هل Google وApple Sign-In يعملان؟
 
-البنية الخلفية موجودة، لكن الأزرار تبقى غير متاحة محلياً ما لم يتم تزويد مفاتيح OAuth وإعدادات التطبيق. الدخول والتسجيل بالبريد وكلمة المرور هما التدفقان المتحققان محلياً.
+Google Sign-In منفذ على Android بواسطة `@react-native-google-signin/google-signin` ومربوط بالـBackend وجلسة التحدي أحادية الاستخدام. تشغيله بحساب حقيقي يحتاج Android/Web OAuth Client IDs من Google Cloud وحساب Google على الجهاز؛ استخدم `docs/GOOGLE_SIGN_IN_SETUP_AR.md`. Apple ما زال يحتاج SDK وcredentials خاصة به. الدخول والتسجيل بالبريد وكلمة المرور متحققان محلياً بالكامل.
 
 ### 21. كيف تتعاملون مع الأخطاء؟
 
@@ -676,4 +676,3 @@ Access token يستخدم للطلبات وعمره أقصر. Refresh token يس
 8. دور `admin` مطلوب من الخادم، وليس من الواجهة فقط.
 9. عنوان Backend من Android emulator هو `10.0.2.2:3000`.
 10. التصميم من Figma، والبيانات من API.
-

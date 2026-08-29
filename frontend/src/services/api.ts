@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { Platform } from 'react-native';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 import local from './local-config.json';
 
 // Android emulator reaches the host through 10.0.2.2. Use HTTPS in production.
@@ -60,6 +61,11 @@ const messages: Record<string, string> = {
   UNAUTHORIZED: 'Please log in again.',
   SESSION_REVOKED: 'Please log in again.',
   RATE_LIMITED: 'Too many attempts. Please wait a minute.',
+  SOCIAL_NOT_CONFIGURED: 'Google sign-in is not configured on the server.',
+  INVALID_PROVIDER_IDENTITY: 'Google could not verify this account.',
+  INVALID_NONCE: 'This Google sign-in request expired. Please try again.',
+  ACCOUNT_LINK_REQUIRED:
+    'This email already has a password account. Log in with email before linking Google.',
 };
 const sessionChanged = () =>
   new ApiError(
@@ -218,6 +224,40 @@ export async function signIn(email: string, password: string) {
   replaceSession(value);
   return value.user;
 }
+export type SocialChallenge = {
+  challengeId: string;
+  nonce: string;
+  expiresAt: string;
+};
+export async function createGoogleChallenge() {
+  return request<SocialChallenge>(
+    '/auth/social/challenges',
+    'POST',
+    { provider: 'google', installationId },
+    undefined,
+    null,
+  );
+}
+export async function finishGoogleSignIn(
+  challengeId: string,
+  idToken: string,
+  rememberMe: boolean,
+) {
+  replaceSession(null);
+  const epoch = generation;
+  const value = await request<Session>(
+    '/auth/social/google',
+    'POST',
+    { challengeId, idToken, installationId, rememberMe },
+    undefined,
+    null,
+  );
+  if (epoch !== generation) {
+    throw sessionChanged();
+  }
+  replaceSession(value);
+  return value.user;
+}
 export async function signOut() {
   const previous = session;
   // Clear immediately so a late refresh cannot resurrect a logged-out account.
@@ -225,6 +265,7 @@ export async function signOut() {
   if (previous) {
     await request('/auth/logout', 'POST', undefined, undefined, previous);
   }
+  await GoogleSignin.signOut().catch(() => undefined);
 }
 // Only rewrite our local development origin, never an external signed media URL.
 export function mediaUrl(value: string) {

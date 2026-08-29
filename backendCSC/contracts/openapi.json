@@ -776,7 +776,7 @@
           "Auth"
         ],
         "summary": "Verify google identity and issue app tokens",
-        "description": "Verify signature, issuer, audience, expiry and challenge nonce on backend; consume nonce once. Apple authorizationCode is required by its adapter for server exchange/revocation. Do not automatically link accounts by matching email. A real native SDK replaces the Figma chooser.",
+        "description": "Verify the Google ID token signature, issuer, audience and expiry with google-auth-library, then consume the short-lived social challenge once. Apple additionally verifies its token nonce and requires authorizationCode for server exchange/revocation. Do not automatically link accounts by matching email. A real native SDK replaces the Figma chooser.",
         "x-phase": "core",
         "x-roles": [
           "public"

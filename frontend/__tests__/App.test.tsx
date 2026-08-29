@@ -16,6 +16,7 @@ import {
   signOut,
   useSessionUser,
 } from '../src/services/api';
+import { signInWithGoogle } from '../src/services/google-auth';
 
 jest.mock('../src/services/api', () => ({
   requestId: () => '10000000-0000-4000-8000-000000000001',
@@ -45,6 +46,13 @@ jest.mock('../src/services/api', () => ({
         ]
       : { id: 'demo-payment', status: 'succeeded' },
   ),
+}));
+jest.mock('../src/services/google-auth', () => ({
+  signInWithGoogle: jest.fn(async () => ({
+    id: 'google-user',
+    name: 'Google Learner',
+    email: 'google@example.com',
+  })),
 }));
 
 let app: ReactTestRenderer;
@@ -211,14 +219,15 @@ test('checkout requires a server session and never submits anonymously', async (
   ).toBeGreaterThan(0);
 });
 
-test('Google artwork never creates a fake authenticated session', async () => {
+test('Google button uses the native/backend sign-in flow and Apple stays disabled', async () => {
   await mount('818');
-  for (const id of ['1:837', '1:844']) {
-    const button = app.root.findAll(n => n.props.testID === `node-${id}`)[0];
-    expect(button.props.disabled).toBe(true);
-    expect(button.props.onPress).toBeUndefined();
-    expect(button.props.accessibilityState.disabled).toBe(true);
-  }
+  const google = app.root.findAll(n => n.props.testID === 'node-1:837')[0];
+  expect(google.props.disabled).toBe(false);
+  const apple = app.root.findAll(n => n.props.testID === 'node-1:844')[0];
+  expect(apple.props.disabled).toBe(true);
+  expect(apple.props.onPress).toBeUndefined();
+  await press('1:837');
+  expect(signInWithGoogle).toHaveBeenCalledWith(true);
   expect(app.root.findAll(n => n.props.testID === 'screen-894')).toHaveLength(
     0,
   );

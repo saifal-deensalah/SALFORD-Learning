@@ -1,5 +1,6 @@
 import argon2 from 'argon2';
 import { SignJWT, jwtVerify, createRemoteJWKSet } from 'jose';
+import { OAuth2Client } from 'google-auth-library';
 import { readFileSync } from 'node:fs';
 import { createPrivateKey } from 'node:crypto';
 import {
@@ -20,9 +21,7 @@ import {
   iso,
 } from './core.js';
 
-const googleKeys = createRemoteJWKSet(
-  new URL('https://www.googleapis.com/oauth2/v3/certs'),
-);
+const googleVerifier = new OAuth2Client();
 const appleKeys = createRemoteJWKSet(
   new URL('https://appleid.apple.com/auth/keys'),
 );
@@ -141,29 +140,36 @@ export async function appleClientSecret() {
 async function social(c: Context, i: Input, provider: 'google' | 'apple') {
   const audiences = (
     provider === 'google'
-      ? process.env.GOOGLE_CLIENT_IDS
+      ? process.env.GOOGLE_CLIENT_ID || process.env.GOOGLE_CLIENT_IDS
       : process.env.APPLE_CLIENT_ID
   )?.split(',').map(value => value.trim()).filter(Boolean);
   if (!audiences?.length) fail(503, 'SOCIAL_NOT_CONFIGURED');
   let identity: any;
   try {
-    identity = (
-      await jwtVerify(
-        i.body.idToken,
-        provider === 'google' ? googleKeys : appleKeys,
-        {
+    if (provider === 'google') {
+      const ticket = await googleVerifier.verifyIdToken({
+        idToken: i.body.idToken,
+        audience: audiences,
+      });
+      identity = ticket.getPayload();
+      if (!identity?.sub) fail(401, 'INVALID_PROVIDER_IDENTITY');
+    } else {
+      identity = (
+        await jwtVerify(i.body.idToken, appleKeys, {
           algorithms: ['RS256'],
           audience: audiences,
-          issuer:
-            provider === 'google'
-              ? ['https://accounts.google.com', 'accounts.google.com']
-              : 'https://appleid.apple.com',
-        },
-      )
-    ).payload;
+          issuer: 'https://appleid.apple.com',
+        })
+      ).payload;
+    }
   } catch {
     fail(401, 'INVALID_PROVIDER_IDENTITY');
   }
+  if (
+    provider === 'google' &&
+    (!identity.email || identity.email_verified !== true)
+  )
+    fail(403, 'VERIFIED_EMAIL_REQUIRED');
   let providerRefresh: string | undefined;
   if (provider === 'apple') {
     const response = await fetch('https://appleid.apple.com/auth/token', {
@@ -194,10 +200,15 @@ async function social(c: Context, i: Input, provider: 'google' | 'apple') {
       'SELECT * FROM auth_challenges WHERE id=$1 AND purpose=$2 AND installation_id=$3 AND consumed_at IS NULL AND expires_at>now() FOR UPDATE',
       [i.body.challengeId, `social_${provider}`, i.body.installationId],
     );
+    if (!challenge)
+      fail(401, 'INVALID_NONCE');
+    // Apple exposes a nonce in its ID token. The original Google Sign-In SDK
+    // does not accept a caller nonce, so Google relies on its verified token
+    // plus this short-lived, single-use server challenge.
     if (
-      !challenge ||
-      typeof identity.nonce !== 'string' ||
-      hash(c, identity.nonce) !== challenge.token_hash
+      provider === 'apple' &&
+      (typeof identity.nonce !== 'string' ||
+        hash(c, identity.nonce) !== challenge.token_hash)
     )
       fail(401, 'INVALID_NONCE');
     await db.query('UPDATE auth_challenges SET consumed_at=now() WHERE id=$1', [
@@ -208,7 +219,10 @@ async function social(c: Context, i: Input, provider: 'google' | 'apple') {
       [provider, identity.sub],
     );
     if (!user) {
-      if (!identity.email || ![true, 'true'].includes(identity.email_verified))
+      if (
+        provider === 'apple' &&
+        (!identity.email || ![true, 'true'].includes(identity.email_verified))
+      )
         fail(403, 'VERIFIED_EMAIL_REQUIRED');
       const email = normalizeEmail(identity.email);
       if (
@@ -219,27 +233,52 @@ async function social(c: Context, i: Input, provider: 'google' | 'apple') {
         ).length
       )
         fail(409, 'ACCOUNT_LINK_REQUIRED');
+      const trustedName =
+          provider === 'google' && typeof identity.name === 'string'
+            ? identity.name.slice(0, 100)
+            : i.body.name || '',
+        trustedPicture =
+          provider === 'google' &&
+          typeof identity.picture === 'string' &&
+          identity.picture.startsWith('https://')
+            ? identity.picture
+            : null;
       [user] = await db.query(
-        'INSERT INTO users(email,name,email_verified_at) VALUES($1,$2,now()) RETURNING *',
-        [email, i.body.name || ''],
+        "INSERT INTO users(email,name,email_verified_at,role) VALUES($1,$2,now(),'student') RETURNING *",
+        [email, trustedName],
       );
       await db.query('INSERT INTO user_settings(user_id) VALUES($1)', [
         user.id,
       ]);
       await db.query(
-        'INSERT INTO auth_identities(user_id,provider,subject,provider_refresh_token_ciphertext) VALUES($1,$2,$3,$4)',
+        'INSERT INTO auth_identities(user_id,provider,subject,provider_refresh_token_ciphertext,provider_profile_picture_url) VALUES($1,$2,$3,$4,$5)',
         [
           user.id,
           provider,
           identity.sub,
           providerRefresh ? seal(t, providerRefresh) : null,
+          trustedPicture,
         ],
       );
-    } else if (providerRefresh)
-      await db.query(
-        'UPDATE auth_identities SET provider_refresh_token_ciphertext=$3 WHERE user_id=$1 AND provider=$2',
-        [user.id, provider, seal(t, providerRefresh)],
-      );
+    } else {
+      if (provider === 'google')
+        await db.query(
+          'UPDATE auth_identities SET provider_profile_picture_url=$3 WHERE user_id=$1 AND provider=$2',
+          [
+            user.id,
+            provider,
+            typeof identity.picture === 'string' &&
+            identity.picture.startsWith('https://')
+              ? identity.picture
+              : null,
+          ],
+        );
+      if (providerRefresh)
+        await db.query(
+          'UPDATE auth_identities SET provider_refresh_token_ciphertext=$3 WHERE user_id=$1 AND provider=$2',
+          [user.id, provider, seal(t, providerRefresh)],
+        );
+    }
     if (user.status !== 'active') fail(403, 'ACCOUNT_UNAVAILABLE');
     return session(t, user, i.body.installationId, i.body.rememberMe);
   });

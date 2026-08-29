@@ -13,6 +13,27 @@ jest.mock('react-native-safe-area-context', () => {
 });
 jest.mock('react-native-svg', () => ({ SvgXml: 'SvgXml' }));
 jest.mock('react-native-video', () => 'Video');
+jest.mock('@react-native-google-signin/google-signin', () => ({
+  GoogleSignin: {
+    configure: jest.fn(),
+    hasPlayServices: jest.fn(async () => true),
+    signIn: jest.fn(async () => ({
+      type: 'success',
+      data: {
+        idToken: 'verified-google-id-token',
+        user: { name: 'Google Learner', email: 'google@example.test' },
+      },
+    })),
+    signOut: jest.fn(async () => null),
+  },
+  isSuccessResponse: response => response?.type === 'success',
+  isErrorWithCode: error => typeof error?.code === 'string',
+  statusCodes: {
+    SIGN_IN_CANCELLED: 'SIGN_IN_CANCELLED',
+    IN_PROGRESS: 'IN_PROGRESS',
+    PLAY_SERVICES_NOT_AVAILABLE: 'PLAY_SERVICES_NOT_AVAILABLE',
+  },
+}));
 jest.mock('@react-native-documents/picker', () => ({
   pick: jest.fn(),
   keepLocalCopy: jest.fn(),

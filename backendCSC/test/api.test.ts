@@ -427,7 +427,7 @@ test('Social providers fail closed without credentials, never fake a login', asy
       status: 201,
     })
   ).data;
-  const keys = ['GOOGLE_CLIENT_IDS', 'APPLE_CLIENT_ID'] as const;
+  const keys = ['GOOGLE_CLIENT_ID', 'GOOGLE_CLIENT_IDS', 'APPLE_CLIENT_ID'] as const;
   const previous = keys.map(key => process.env[key]);
   try {
     // Blank dotenv values and comma/whitespace lists mean unconfigured too.
