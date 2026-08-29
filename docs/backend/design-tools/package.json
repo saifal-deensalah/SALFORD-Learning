@@ -1,0 +1,14 @@
+{
+  "name": "salford-backend-design-checks",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Design validation tools only; this is not the backend server",
+  "scripts": {
+    "generate": "node build-contract.cjs",
+    "validate": "node validate.cjs"
+  },
+  "dependencies": {
+    "@apidevtools/swagger-parser": "^12.1.0",
+    "@electric-sql/pglite": "^0.3.14"
+  }
+}

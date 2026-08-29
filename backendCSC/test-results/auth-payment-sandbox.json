@@ -1,0 +1,82 @@
+{
+  "createdAt": "2026-08-28T11:11:46.129Z",
+  "database": "isolated-local",
+  "checks": [
+    {
+      "route": "/health/ready",
+      "status": 200
+    },
+    {
+      "route": "/billing/demo-purchases",
+      "status": 401
+    },
+    {
+      "route": "/auth/register",
+      "status": 202
+    },
+    {
+      "route": "/auth/login",
+      "status": 401
+    },
+    {
+      "route": "/auth/login",
+      "status": 200
+    },
+    {
+      "route": "/billing/demo-plans",
+      "status": 200
+    },
+    {
+      "route": "/billing/demo-purchases",
+      "status": 403
+    },
+    {
+      "route": "/auth/email/verification-requests",
+      "status": 202
+    },
+    {
+      "route": "/auth/email/verify",
+      "status": 200
+    },
+    {
+      "route": "/me",
+      "status": 200
+    },
+    {
+      "route": "/billing/demo-purchases",
+      "status": 201
+    },
+    {
+      "route": "/billing/demo-purchases",
+      "status": 201
+    },
+    {
+      "route": "/billing/demo-purchases",
+      "status": 201
+    },
+    {
+      "route": "/me/subscriptions",
+      "status": 200
+    },
+    {
+      "route": "/admin/demo-payments",
+      "status": 403
+    },
+    {
+      "route": "/auth/refresh",
+      "status": 200
+    },
+    {
+      "route": "/me",
+      "status": 200
+    },
+    {
+      "route": "/auth/logout",
+      "status": 204
+    },
+    {
+      "route": "/me",
+      "status": 401
+    }
+  ]
+}

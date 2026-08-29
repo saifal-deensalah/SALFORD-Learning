@@ -1,0 +1,43 @@
+{
+  "checkedAt": "2026-08-29T00:20:13.875Z",
+  "operations": 67,
+  "paths": 61,
+  "models": 59,
+  "tables": 33,
+  "frames": 18,
+  "panels": 9,
+  "checks": 26,
+  "passed": [
+    "OpenAPI 3.0.3 schema, local references and operation definitions",
+    "Unique operation identifiers",
+    "All 18 actual Figma frames map to existing API operations or explicit local-only behavior",
+    "Every current frontend panel is covered",
+    "Contract declares private/admin access and provider authentication boundaries",
+    "Path parameters, conditional checkout and server-owned completion contract",
+    "Full SQL reference migration executes in embedded PostgreSQL",
+    "Case-insensitive email uniqueness",
+    "Unknown user role rejected",
+    "Same social subject cannot bind two users",
+    "Published pointer cannot reference another course",
+    "Chapter positions are unique per version",
+    "A lesson must belong to its chapter version",
+    "Non-positive duration rejected",
+    "Enrollment cannot point to another course version",
+    "Duplicate user enrollment per version rejected",
+    "Progress beyond 100 percent rejected",
+    "Incomplete course cannot be marked completed by schema update",
+    "Lesson progress cannot use another user enrollment",
+    "Duplicate bookmark cannot be inserted",
+    "Negative monetary amount rejected",
+    "Verification provider must match product provider",
+    "One purchase evidence cannot bind two accounts",
+    "Duplicate provider webhook identity rejected",
+    "Duplicate playback sequence rejected",
+    "Certificate issuance is unique per enrollment"
+  ],
+  "limits": [
+    "No HTTP backend or provider integration implemented",
+    "PGlite is embedded PostgreSQL; no production database deployment or concurrency/load test",
+    "Constraints do not replace service authorization, receipt verification or completion logic"
+  ]
+}

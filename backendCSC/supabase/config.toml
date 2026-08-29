@@ -1,0 +1,11 @@
+# Migration workspace. The mobile app uses NestJS, not the Supabase Data API.
+project_id = "CSCApp"
+
+[api]
+enabled = false
+
+[db]
+major_version = 17
+
+[db.seed]
+enabled = false

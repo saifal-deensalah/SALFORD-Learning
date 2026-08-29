@@ -1,0 +1,35 @@
+{
+  "scope": "read-only: no login, rate-limit writes, jobs or user mutations",
+  "checkedAt": "2026-08-28T11:23:59.977Z",
+  "apiOrigin": "http://127.0.0.1:3000",
+  "database": {
+    "name": "postgres",
+    "schema": "csc",
+    "role": "csc_backend",
+    "tables": 36,
+    "courses": 7,
+    "postgres_side_tls": false
+  },
+  "clientTls": {
+    "encrypted": true,
+    "authorized": true,
+    "protocol": "TLSv1.3"
+  },
+  "frontendSecretScan": {
+    "scannedFiles": 90,
+    "matches": 0
+  },
+  "checks": [
+    {
+      "method": "GET",
+      "route": "/health/live",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/health/ready",
+      "status": 200
+    }
+  ],
+  "swagger": 200
+}

@@ -1,0 +1,10 @@
+ALTER TABLE auth_sessions ADD COLUMN auth_time timestamptz NOT NULL DEFAULT now();
+ALTER TABLE outbox_events ADD COLUMN leased_until timestamptz;
+ALTER TABLE outbox_events ADD COLUMN next_attempt_at timestamptz NOT NULL DEFAULT now();
+ALTER TABLE outbox_events ADD COLUMN last_error_code text;
+ALTER TABLE playback_sessions ADD COLUMN grant_key text;
+ALTER TABLE checkout_sessions ADD COLUMN checkout_url_ciphertext text;
+ALTER TABLE users ADD COLUMN billing_account_id uuid NOT NULL DEFAULT gen_random_uuid();
+CREATE UNIQUE INDEX users_billing_binding ON users(billing_account_id);
+CREATE TABLE rate_limits (key text PRIMARY KEY, hits integer NOT NULL, expires_at timestamptz NOT NULL);
+CREATE INDEX outbox_due ON outbox_events(next_attempt_at) WHERE delivered_at IS NULL;

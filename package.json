@@ -1,0 +1,25 @@
+{
+  "name": "csc-workspace",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Separate React Native frontend and NestJS backend; no shared dependencies",
+  "scripts": {
+    "android:dev": "npm --prefix frontend run android:dev --",
+    "setup": "npm ci --prefix frontend && npm ci --prefix backendCSC && npm ci --prefix admin-dashboard",
+    "start:admin": "npm --prefix admin-dashboard run dev",
+    "build:admin": "npm --prefix admin-dashboard run build",
+    "start:frontend": "npm --prefix frontend run start --",
+    "start:backend": "npm --prefix backendCSC run start --",
+    "dev:backend": "npm --prefix backendCSC run dev --",
+    "android": "npm --prefix frontend run android --",
+    "ios": "npm --prefix frontend run ios --",
+    "typecheck": "npm --prefix frontend run typecheck && npm --prefix backendCSC run typecheck && npm --prefix admin-dashboard run typecheck",
+    "lint": "npm --prefix frontend run lint --",
+    "test": "npm --prefix frontend run test:ci && npm --prefix backendCSC test",
+    "build:backend": "npm --prefix backendCSC run build",
+    "check:contract": "npm --prefix backendCSC run check:contract",
+    "check:local": "npm --prefix backendCSC run check:local",
+    "check:design": "npm --prefix docs/backend/design-tools run validate"
+  },
+  "engines": { "node": ">=22.13.0" }
+}

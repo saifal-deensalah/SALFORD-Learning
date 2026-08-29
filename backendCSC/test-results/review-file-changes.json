@@ -1,0 +1,122 @@
+[
+  {
+    "file": "frontend\\src\\App.tsx",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\src\\learning\\StudentApp.tsx",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\src\\panels\\LearningPanels.tsx",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\src\\services\\api.ts",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\__tests__\\api.test.ts",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\__tests__\\App.test.tsx",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\src\\core.ts",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\src\\learning.ts",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\test\\api.test.ts",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\scripts\\auth-payment-smoke.mjs",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\scripts\\smoke.mjs",
+    "status": "changed"
+  },
+  {
+    "file": "admin-dashboard\\src\\api.ts",
+    "status": "changed"
+  },
+  {
+    "file": "admin-dashboard\\src\\ui.tsx",
+    "status": "changed"
+  },
+  {
+    "file": "docs\\api-guide-ar.md",
+    "status": "changed"
+  },
+  {
+    "file": "docs\\backend\\design-validation.json",
+    "status": "changed"
+  },
+  {
+    "file": "docs\\backend\\docs\\validation.md",
+    "status": "changed"
+  },
+  {
+    "file": "docs\\local-run.md",
+    "status": "changed"
+  },
+  {
+    "file": "package.json",
+    "status": "changed"
+  },
+  {
+    "file": "README.md",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\package.json",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\README.md",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\.gitignore",
+    "status": "changed"
+  },
+  {
+    "file": "frontend\\metro.config.js",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\README.md",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\.env.example",
+    "status": "changed"
+  },
+  {
+    "file": "backendCSC\\.gitignore",
+    "status": "changed"
+  },
+  {
+    "file": "admin-dashboard\\README.md",
+    "status": "changed"
+  },
+  {
+    "file": "admin-dashboard\\.gitignore",
+    "status": "changed"
+  },
+  {
+    "file": "admin-dashboard\\tsconfig.json",
+    "status": "changed"
+  },
+  {
+    "file": "admin-dashboard\\vite.config.ts",
+    "status": "changed"
+  }
+]

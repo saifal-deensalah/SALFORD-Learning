@@ -1,0 +1,16 @@
+{
+  "checkedAt": "2026-08-28T13:17:10.748Z",
+  "entry": "dist/main.js",
+  "mode": "embedded",
+  "pid": 18156,
+  "listeners": [
+    {
+      "LocalAddress": "127.0.0.1",
+      "LocalPort": 3000
+    }
+  ],
+  "ready": 200,
+  "workerEnabled": true,
+  "postgresTcpAttempts": 0,
+  "gracefulShutdownRequested": true
+}

@@ -1,0 +1,110 @@
+[
+  {
+    "id": "37",
+    "name": "splash",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "47",
+    "name": "welcome",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "420",
+    "name": "OB1",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "561",
+    "name": "OB2",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "804",
+    "name": "OB3",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "818",
+    "name": "Login",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "894",
+    "name": "Login",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "985",
+    "name": "Sign up",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "1066",
+    "name": "Home",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "1189",
+    "name": "Search course",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "1345",
+    "name": "course details",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "1479",
+    "name": "my courses",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "1824",
+    "name": "Profile",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "1874",
+    "name": "Subscription Plans",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "1951",
+    "name": "Payment Method",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "2086",
+    "name": "Payment Method",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "2231",
+    "name": "Course Playing",
+    "width": 390,
+    "height": 844
+  },
+  {
+    "id": "2314",
+    "name": "Home with navigation",
+    "width": 390,
+    "height": 844
+  }
+]

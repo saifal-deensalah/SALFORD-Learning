@@ -1,0 +1,34 @@
+{
+  "status": "proposed-not-connected",
+  "screens": [
+    {"frameId":"37","name":"Splash","operations":["refreshSession","getMe"],"note":"Refresh only when a secure stored session exists; onboarding remains local."},
+    {"frameId":"47","name":"Welcome","operations":[],"note":"Static introduction; no API needed."},
+    {"frameId":"420","name":"OB1","operations":[],"note":"Static onboarding."},
+    {"frameId":"561","name":"OB2","operations":[],"note":"Static onboarding."},
+    {"frameId":"804","name":"OB3","operations":[],"note":"Store device onboarding locally."},
+    {"frameId":"818","name":"Login","operations":["login","createSocialChallenge","loginGoogle","loginApple","requestPasswordReset"]},
+    {"frameId":"894","name":"Google account chooser","operations":["createSocialChallenge","loginGoogle"],"note":"Replace preview chooser with real provider SDK."},
+    {"frameId":"985","name":"Sign up","operations":["register","requestVerification","verifyEmail"],"note":"Verification link UI must be added."},
+    {"frameId":"1066","name":"Home","operations":["getHome","saveBookmark","removeBookmark"]},
+    {"frameId":"1189","name":"Search","operations":["listCategories","listCourses","saveBookmark","removeBookmark"]},
+    {"frameId":"1345","name":"Course details","operations":["getCourse","getCurriculum","enroll"]},
+    {"frameId":"1479","name":"My courses","operations":["listMyCourses","getProgress"]},
+    {"frameId":"1824","name":"Profile","operations":["getMe","getHistory","listCertificates","getSettings","getSubscriptions"]},
+    {"frameId":"1874","name":"Subscription plans","operations":["listPlans","getBillingOptions","getSubscriptions"]},
+    {"frameId":"1951","name":"Payment","operations":["getBillingOptions","verifyPurchase","getVerification","createCheckout","getCheckout"],"note":"External checkout conditional; no PAN/CVV API."},
+    {"frameId":"2086","name":"Payment success","operations":["getVerification","getSubscriptions","getCheckout"],"note":"Only verified purchase state may display success."},
+    {"frameId":"2231","name":"Course playing","operations":["getCurriculum","getProgress","startPlayback","recordPlayback"]},
+    {"frameId":"2314","name":"Home navigation","operations":["getHome","listBookmarks","listMyCourses","getMe","getSettings"],"note":"Menu opening itself has no API."}
+  ],
+  "panels": [
+    {"name":"filters","operations":["listCategories","listCourses"]},
+    {"name":"bookmarks","operations":["listBookmarks","saveBookmark","removeBookmark"]},
+    {"name":"history","operations":["getHistory"]},
+    {"name":"certificates","operations":["listCertificates","downloadCertificate","verifyCertificate","updateSettings"]},
+    {"name":"settings","operations":["getSettings","updateSettings","getSubscriptions","manageSubscription","logout","logoutAll","deleteAccount"]},
+    {"name":"notifications","operations":["listNotifications","readNotification","registerDevice","unregisterDevice"]},
+    {"name":"forgot","operations":["requestPasswordReset","resetPassword"]},
+    {"name":"profile","operations":["getMe","updateMe","requestEmailChange","verifyEmail"]},
+    {"name":"gallery","operations":[],"note":"Development only; no server dependency."}
+  ]
+}

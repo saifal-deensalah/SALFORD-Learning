@@ -1,0 +1,93 @@
+{
+  "date": "2026-08-28",
+  "frontend": {
+    "tests": 54,
+    "suites": 4,
+    "passed": 54
+  },
+  "backend": {
+    "tests": 31,
+    "passed": 31,
+    "httpOperations": 78
+  },
+  "sandboxAuthPayment": {
+    "checks": 19,
+    "passed": 19
+  },
+  "builds": {
+    "backend": "passed",
+    "admin": "passed",
+    "android": "built and installed on emulator"
+  },
+  "lint": {
+    "errors": 0,
+    "warnings": 17
+  },
+  "security": {
+    "supabaseTables": 36,
+    "rlsAndForce": 36,
+    "dataApiRolesSchemaUsage": false,
+    "backendRoleSuperuser": false,
+    "securityAdvisorLints": 0
+  },
+  "dependencyAudit": {
+    "backendProduction": 0,
+    "adminProduction": 0,
+    "frontendProduction": {
+      "high": 8,
+      "rootDependency": "image-size via Metro"
+    }
+  },
+  "scope": "Cloud reads only; writable tests used isolated local PGlite.",
+  "androidUi": {
+    "login": "passed",
+    "demoPayment": "success screen and admin ledger",
+    "enrollment": "passed",
+    "playback": "two lessons completed, 100%",
+    "certificate": "issued in mobile list",
+    "pdfViewer": "not tested"
+  },
+  "cloudReadOnly": {
+    "scope": "read-only: no login, rate-limit writes, jobs or user mutations",
+    "checkedAt": "2026-08-28T11:23:59.977Z",
+    "apiOrigin": "http://127.0.0.1:3000",
+    "database": {
+      "name": "postgres",
+      "schema": "csc",
+      "role": "csc_backend",
+      "tables": 36,
+      "courses": 7,
+      "postgres_side_tls": false
+    },
+    "clientTls": {
+      "encrypted": true,
+      "authorized": true,
+      "protocol": "TLSv1.3"
+    },
+    "frontendSecretScan": {
+      "scannedFiles": 90,
+      "matches": 0
+    },
+    "checks": [
+      {
+        "method": "GET",
+        "route": "/health/live",
+        "status": 200
+      },
+      {
+        "method": "GET",
+        "route": "/health/ready",
+        "status": 200
+      }
+    ],
+    "swagger": 200
+  },
+  "cloudWriteGuard": "refused before any write",
+  "finalState": {
+    "backend": "local loopback 3000, Supabase postgres/csc",
+    "metro": "loopback 8082",
+    "admin": "loopback 5173",
+    "androidQaApp": "stopped",
+    "cloudMutationsByTests": false
+  }
+}

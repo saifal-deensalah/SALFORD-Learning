@@ -1,0 +1,33 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+backendCSC/node_modules/
+admin-dashboard/node_modules/
+
+# Secrets / environment
+.env
+.env.*
+!.env.example
+
+# Local backend data - contains local accounts/secrets
+backendCSC/.local/
+
+# Build outputs
+dist/
+build/
+coverage/
+frontend/android/.gradle/
+frontend/android/build/
+frontend/android/app/build/
+
+# Logs
+*.log
+npm-debug.log*
+
+# IDE
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

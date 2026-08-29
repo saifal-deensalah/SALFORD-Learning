@@ -1,0 +1,52 @@
+{
+  "checkedAt": "2026-08-28T13:17:50.640Z",
+  "mode": "embedded",
+  "environment": "development",
+  "apiOrigin": "http://127.0.0.1:3000",
+  "listener": {
+    "address": "127.0.0.1",
+    "family": "IPv4",
+    "port": 3000
+  },
+  "database": {
+    "name": "template1",
+    "schema": "public",
+    "tables": 36,
+    "courses": 7,
+    "lessons": 14,
+    "users": 2
+  },
+  "migrations": [
+    "001_initial.sql",
+    "002_runtime.sql",
+    "003_versions.sql",
+    "004_refunds.sql",
+    "005_demo_billing.sql"
+  ],
+  "dataDir": "C:\\Projects\\CSCApp\\backendCSC\\.local\\local-app",
+  "postgresDir": "C:\\Projects\\CSCApp\\backendCSC\\.local\\local-app\\postgres",
+  "persistenceVerified": true,
+  "postgresTcpAttempts": 0,
+  "frontendSecretScan": {
+    "scannedFiles": 89,
+    "matches": 0
+  },
+  "checks": [
+    {
+      "method": "GET",
+      "route": "/health/live",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "route": "/health/ready",
+      "status": 200
+    }
+  ],
+  "swagger": 200,
+  "demoAuth": false,
+  "workerStarted": false,
+  "apiStopped": true,
+  "databaseClosed": true,
+  "lockReleased": true
+}
